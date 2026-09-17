@@ -20,6 +20,7 @@ biometric = "1.1.0"
 carApp = "1.4.0"
 media = "1.7.0"
 junit = "4.13.2"
+robolectric = "4.14.1"
 room = "2.7.1"
 work = "2.9.1"
 hiltWork = "1.2.0"
@@ -55,6 +56,8 @@ biometric = { group = "androidx.biometric", name = "biometric", version.ref = "b
 androidx-car-app = { group = "androidx.car.app", name = "app", version.ref = "carApp" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "media" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

@@ -199,8 +199,8 @@ data class ReportDate(
 )
 
 data class VehicleStatusData(
-    @SerializedName("doorLock") val doorLock: Boolean = false,
-    @SerializedName("doorLockStatus") val doorLockStatus: String = "false",
+    @SerializedName("doorLock") val doorLock: Boolean? = null,
+    @SerializedName("doorLockStatus") val doorLockStatus: String? = null,
     @SerializedName("doorOpen") val doorOpenStatus: DoorOpenStatus? = null,
     @SerializedName("trunkOpen") val trunkOpenStatus: Boolean = false,
     @SerializedName("hoodOpen") val hoodOpenStatus: Boolean = false,
@@ -238,8 +238,22 @@ data class VehicleStatusData(
     @SerializedName("odometer") val totalMileage: Int = 0
 ) {
     val doorsLocked: Boolean
-        get() = doorLock || doorLockStatus.equals("LOCKED", ignoreCase = true) ||
-            doorLockStatus.equals("true", ignoreCase = true) || doorLockStatus == "1"
+        get() = reportedDoorsLocked == true
+
+    /** Null means the API omitted or did not recognize the lock state. */
+    val reportedDoorsLocked: Boolean?
+        get() {
+            val status = when (doorLockStatus?.lowercase(java.util.Locale.ROOT)) {
+                "locked", "true", "1" -> true
+                "unlocked", "false", "0" -> false
+                else -> null
+            }
+            return when {
+                doorLock == true || status == true -> true
+                doorLock == false || status == false -> false
+                else -> null
+            }
+        }
 
     val ignitionOn: Boolean
         get() = ignitionStatus.equals("ON", ignoreCase = true) ||
@@ -578,19 +592,23 @@ data class LampGroupStatus(
 data class VehicleLocation(
     @SerializedName("coord") val coord: Coordinate? = null,
     @SerializedName("speed") val speed: Speed? = null,
-    @SerializedName(value = "heading", alternate = ["head"]) val heading: Int = 0
+    @SerializedName(value = "heading", alternate = ["head"]) val heading: Int? = null
 )
 
 data class Coordinate(
-    @SerializedName("lat") val lat: Double = 0.0,
-    @SerializedName("lon") val lon: Double = 0.0,
+    @SerializedName("lat") val lat: Double? = null,
+    @SerializedName("lon") val lon: Double? = null,
     @SerializedName("alt") val alt: Double = 0.0,
     @SerializedName("type") val type: Int = 0
-)
+) {
+    val isValid: Boolean
+        get() = lat != null && lon != null && lat.isFinite() && lon.isFinite() &&
+            lat in -90.0..90.0 && lon in -180.0..180.0
+}
 
 data class Speed(
-    @SerializedName("unit") val unit: Int = 1,
-    @SerializedName("value") val value: Double = 0.0
+    @SerializedName("unit") val unit: Int? = null,
+    @SerializedName("value") val value: Double? = null
 )
 
 // ─── Remote Control Requests ──────────────────────────────────────────────────
