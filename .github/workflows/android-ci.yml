@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Test release validation
+        run: python3 .github/scripts/test_prepare_release.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
