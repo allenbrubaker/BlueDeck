@@ -8,6 +8,10 @@ BlueDeck is a fork of the discontinued, open-source **BlueBridge for Android** p
 
 ## Features
 
+- **Tasker request/result API (fork)** — read vehicle location and lock status,
+  send lock/unlock commands, and receive correlated success/error broadcasts.
+  See [Tasker setup and return fields](docs/TASKER.md).
+
 Notice about features: I am a single developer with a Hyundai in Canada. So Hyundai ownsers in Canada are more likely to have a good experience than any other brand in any other region. Because Hyundai has decided to implement different APIs for every region with slightly different features and capabilities, this makes it challenging. Please file bug reports in GibHub if you have any issues and I'll try to address them.
 
 - 🔒 **Lock & Unlock** doors remotely

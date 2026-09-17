@@ -16,8 +16,8 @@ android {
         applicationId = "com.bluedeck"
         minSdk = 26
         targetSdk = 35
-        versionCode = 44
-        versionName = "1.12.0"
+        versionCode = 45
+        versionName = "1.13.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -80,6 +80,10 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
 
     packaging {
@@ -157,6 +161,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
 
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.coroutines.test)
 }
 
 hilt {

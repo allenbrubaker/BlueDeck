@@ -20,6 +20,15 @@ BlueDeck communicates with Hyundai/Kia connected-car endpoints required for app 
 
 BlueDeck does not intentionally sell user data, transmit account credentials to a BlueDeck-owned analytics service, or use a BlueDeck-operated tracking backend.
 
+## Tasker integration
+
+When a Tasker API request is received, BlueDeck sends its result to the installed
+Tasker app (`net.dinglisch.android.taskerm`). Results can contain vehicle GPS
+coordinates, speed, heading, lock state, command success/error, request IDs and
+request/completion times. They are package-scoped broadcasts, not public broadcasts
+or uploads to a BlueDeck backend. The v1 request receiver requires no security
+token and can also be invoked by other installed apps. See [the Tasker API](docs/TASKER.md).
+
 ## Logs and troubleshooting
 
 When reporting issues, remove or obscure the following before sharing logs or screenshots:

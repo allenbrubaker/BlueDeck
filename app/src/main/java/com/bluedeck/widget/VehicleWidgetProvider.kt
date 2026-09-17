@@ -10,6 +10,8 @@ import android.content.res.Configuration
 import android.widget.RemoteViews
 import com.bluedeck.MainActivity
 import com.bluedeck.R
+import com.bluedeck.tasker.TaskerContract
+import com.bluedeck.tasker.TaskerReceiver
 import com.bluedeck.data.models.CommandHistoryEntry
 import com.bluedeck.data.models.Vehicle
 import com.bluedeck.data.models.VehicleStatusData
@@ -52,6 +54,11 @@ open class VehicleWidgetProvider : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         val action = intent.action ?: return
+        if (TaskerContract.action(action)?.isCommand == true && intent.hasExtra(TaskerContract.REQUEST_ID)) {
+            val pending = goAsync()
+            TaskerReceiver.enqueue(context.applicationContext, intent, pending::finish)
+            return
+        }
         if (action !in widgetActions) return
 
         val pendingResult = goAsync()

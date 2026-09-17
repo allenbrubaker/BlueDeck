@@ -57,6 +57,20 @@
             </intent-filter>
         </activity>
 
+        <!-- Tasker API: explicit broadcasts, no security token in v1. -->
+        <receiver
+            android:name=".tasker.TaskerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.bluedeck.tasker.GET_LOCATION" />
+                <action android:name="com.bluedeck.tasker.GET_STATUS" />
+                <action android:name="com.bluedeck.tasker.LOCK" />
+                <action android:name="com.bluedeck.tasker.UNLOCK" />
+                <action android:name="com.bluedeck.widget.LOCK" />
+                <action android:name="com.bluedeck.widget.UNLOCK" />
+            </intent-filter>
+        </receiver>
+
         <!-- Widget Providers -->
         <receiver
             android:name=".widget.VehicleWidgetProvider"
@@ -64,6 +78,8 @@
             android:label="@string/widget_full_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.bluedeck.widget.LOCK" />
+                <action android:name="com.bluedeck.widget.UNLOCK" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

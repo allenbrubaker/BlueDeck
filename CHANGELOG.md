@@ -13,6 +13,19 @@ BlueDeck is a fork of [BlueBridge for Android](https://github.com/Nelwyn99) by N
 
 See `.cursor/rules/release-workflow.mdc` for agent workflow details.
 
+## [1.13.0] - 2026-09-17
+
+### Added
+
+- Tasker GET_LOCATION, GET_STATUS, LOCK and UNLOCK requests with correlated LOCATION_RESULT, STATUS_RESULT and COMMAND_RESULT broadcasts.
+- Background execution with bounded request lifetime, Tasker-only result delivery, and no automatic command retries or vehicle-state pre-checks.
+- Tasker API documentation, unit and Android intent tests, and CI debug APK build.
+
+### Fixed
+
+- Preserve missing coordinates, speed, heading and lock telemetry as unknown instead of reporting fabricated zero/unlocked values to Tasker.
+- Display a valid zero-degree heading and valid coordinates on the equator/prime meridian.
+
 ## [1.12.0] - 2026-07-17
 
 ### Added

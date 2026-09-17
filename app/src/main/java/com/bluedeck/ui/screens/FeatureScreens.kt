@@ -76,7 +76,7 @@ fun LocationScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            if (coord == null || (coord.lat == 0.0 && coord.lon == 0.0)) {
+            if (coord == null || !coord.isValid) {
                 EmptyFeatureCard(
                     icon = Icons.Filled.LocationOff,
                     title = "No GPS location returned",
@@ -92,12 +92,12 @@ fun LocationScreen(
                         Spacer(Modifier.height(8.dp))
                         StatusRow(Icons.Filled.Terrain, "Altitude", "${coord.alt} m", MaterialTheme.colorScheme.onSurface)
                     }
-                    if (location.heading != 0) {
+                    if (location.heading != null) {
                         Spacer(Modifier.height(8.dp))
                         StatusRow(Icons.Filled.Explore, "Heading", "${location.heading}°", MaterialTheme.colorScheme.onSurface)
                     }
                     location.speed?.let {
-                        if (it.value > 0) {
+                        if (it.value != null && it.value > 0) {
                             Spacer(Modifier.height(8.dp))
                             StatusRow(Icons.Filled.Speed, "Speed", it.value.toString(), MaterialTheme.colorScheme.onSurface)
                         }

@@ -456,12 +456,12 @@ fun StatusScreen(
 
                 // ─── Location ──────────────────────────────────────────────────
                 s.location?.coord?.let { coord ->
-                    if (coord.lat != 0.0 || coord.lon != 0.0) {
+                    if (coord.isValid) {
                         ControlSection(title = "Location") {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 StatusRow(Icons.Filled.Place, "Latitude", coord.lat.toString(), MaterialTheme.colorScheme.onSurface)
                                 StatusRow(Icons.Filled.Place, "Longitude", coord.lon.toString(), MaterialTheme.colorScheme.onSurface)
-                                if (s.location.heading != 0) {
+                                if (s.location.heading != null) {
                                     StatusRow(Icons.Filled.Explore, "Heading", "${s.location.heading}°", MaterialTheme.colorScheme.onSurface)
                                 }
                             }
