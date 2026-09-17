@@ -262,7 +262,10 @@ app/
 
 ## Releasing
 
-GitHub Releases are produced by [`.github/workflows/release.yml`](.github/workflows/release.yml) when you push a version tag.
+GitHub Releases are produced by [`.github/workflows/release.yml`](.github/workflows/release.yml)
+when you push a version tag or manually run the **Release** workflow. Merging a PR
+does not publish a release. Android CI separately uploads a debug APK as a workflow
+artifact; that is not a signed release APK.
 
 ### One-time setup (signing secrets)
 
@@ -296,18 +299,41 @@ base64 -i release.keystore | tr -d '\n' | gh secret set KEYSTORE_BASE64
 ```
 
 Do not commit the keystore; `*.keystore` / `*.jks` are already gitignored.
+The workflow requires all four secrets and fails before building if any are missing.
+Keep a secure backup of your signing key and passwords; do not paste them into issues,
+PRs, or chat. A fork signed with your own key cannot update an upstream installation
+signed with another key. The debug build uses a separate `com.bluedeck.debug` package.
 
-### Publish a release
+### Publish manually from GitHub
+
+After this workflow is merged into the default branch:
+
+1. Open your repository's **Actions → Release → Run workflow**.
+2. Select **master** (or the reviewed branch you intend to release).
+3. Enter the **tag** matching that checkout's `versionName`, for example `v1.14.0`.
+4. Click **Run workflow**. It validates the version and changelog, checks signing
+   secrets, runs unit tests, builds the signed APK, then creates the GitHub Release
+   with `BlueDeck-1.14.0.apk` attached.
+
+A new tag is created at the exact commit used by the run when the release is created.
+An existing tag must already point to that commit (annotated tags are supported).
+Tags are never moved, and an existing release is not overwritten. If a run fails,
+inspect its logs before retrying; a publishing failure can leave a draft release
+that needs review. Do not delete an existing release or tag simply to force a retry.
+
+### Publish by pushing a tag
 
 1. On `master` (or your integration branch), confirm `versionName` / `versionCode` in `app/build.gradle.kts` and the matching `CHANGELOG.md` section are updated.
-2. Tag and push (tag must match `versionName`, e.g. `1.8.0` → `v1.8.0`):
+2. Tag and push (tag must match `versionName`, e.g. `1.14.0` → `v1.14.0`):
 
 ```bash
-git tag v1.8.0
-git push origin v1.8.0
+git tag v1.14.0
+git push origin v1.14.0
 ```
 
-3. The workflow builds a signed APK and attaches `BlueDeck-1.8.0.apk` to a GitHub Release, with notes from the changelog section.
+3. The workflow tests and builds a signed APK and attaches `BlueDeck-1.14.0.apk` to a GitHub Release, with notes from the changelog section plus generated GitHub notes.
+
+Release validation can be tested offline with `python3 .github/scripts/test_prepare_release.py`.
 
 Local unsigned release builds still work without those env vars (`./gradlew assembleRelease`). To sign locally, set `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, and `KEY_PASSWORD`.
 

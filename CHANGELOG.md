@@ -13,6 +13,19 @@ BlueDeck is a fork of [BlueBridge for Android](https://github.com/Nelwyn99) by N
 
 See `.cursor/rules/release-workflow.mdc` for agent workflow details.
 
+## [1.14.0] - 2026-09-17
+
+### Added
+
+- Manual signed APK publishing from Actions → Release → Run workflow with an explicit version tag.
+- Release checks for version/changelog consistency, conflicting tags, and all required signing secrets; run unit tests before publishing.
+- Offline regression tests for manual and tag-triggered release validation.
+
+### Fixed
+
+- Release SDK setup no longer requests the removed legacy Android `tools` package.
+- Manual releases target the exact built commit, and release creation does not overwrite an existing release.
+
 ## [1.13.0] - 2026-09-17
 
 ### Added
